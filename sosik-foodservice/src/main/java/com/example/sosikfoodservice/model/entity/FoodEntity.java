@@ -10,32 +10,40 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 
 
-@Embeddable
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Slf4j
-@Table(name = "food")
+@Table(
+        name = "food",
+        indexes = {
+            @Index(
+                    name = "idx_food_name", columnList = "name", unique = false
+            )
+        }
+)
 public class FoodEntity  extends AuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foodId;
-    @Embedded
-    private Name name;
-    @Column(precision = 10, scale = 1)
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(precision = 10, scale = 2)
     private BigDecimal carbo;
-    @Column(precision = 10, scale = 1)
+    @Column(precision = 10, scale = 2)
     private BigDecimal protein;
-    @Column(precision = 10, scale = 1)
+    @Column(precision = 10, scale = 2)
     private BigDecimal fat;
-    @Column(precision = 10, scale = 1)
+    @Column(precision = 10, scale = 2)
     private BigDecimal kcal;
-    @Column(precision = 19, scale = 10)
+    @Column(precision = 10, scale = 2)
     private BigDecimal size;
 
 
+    @Builder
     public FoodEntity(
-            final Name name,
+            final String name,
             final BigDecimal carbo,
             final BigDecimal protein,
             final BigDecimal fat,
@@ -50,16 +58,15 @@ public class FoodEntity  extends AuditingFields{
         this.size=size;
     }
 
-    @Builder
-    public FoodEntity(
-            final String name,
-    final BigDecimal carbo,
-    final BigDecimal protein,
-    final BigDecimal fat,
-    final BigDecimal kcal,
-    final BigDecimal size
-    ){
-        this(new Name(name), carbo, protein, fat, kcal, size);
-    }
-
+//    @Builder
+//    public FoodEntity(
+//            final String name,
+//            final BigDecimal carbo,
+//            final BigDecimal protein,
+//            final BigDecimal fat,
+//            final BigDecimal kcal,
+//            final BigDecimal size
+//    ){
+//        this(new Name(name), carbo, protein, fat, kcal, size);
+//    }
 }
