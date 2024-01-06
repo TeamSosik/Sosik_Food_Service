@@ -7,6 +7,8 @@ plugins {
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
+//def queryDslVersion = '5.0.0'
+
 java {
 	sourceCompatibility = '17'
 }
@@ -26,7 +28,6 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
@@ -44,7 +45,27 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	testAnnotationProcessor 'org.projectlombok:lombok' // 테스트를 위한 세팅
+	testImplementation 'org.projectlombok:lombok' // 테스트를 위한 세팅
+
+	//querydsl dependencies 추가(스프링부트 3.0 이상)
+//	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+//	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"// Q타입 클래스 자동생성
+//	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+//	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+//	implementation("com.querydsl:querydsl-core:${queryDslVersion}")
+//	implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
+//
+//	annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jakarta",
+//			"jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
+
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
@@ -58,3 +79,30 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// query dsl 추가 시작
+
+//def querydslSrcDir = 'src/main/generated'
+//clean {
+//	delete file(querydslSrcDir)
+//}
+//
+//tasks.withType(JavaCompile) {
+//	options.generatedSourceOutputDirectory = file(querydslSrcDir)
+//}
+
+def querydslDir = "src/main/generated"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+}
+
+clean.doLast {
+	file(querydslDir).deleteDir()
+}
+
+// query dsl 추가 끝
