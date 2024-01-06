@@ -2,7 +2,10 @@ package com.example.sosikfoodservice.model.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
@@ -32,4 +36,11 @@ public class AuditingFields {
     @LastModifiedBy
 //    @Column(nullable = false, length = 100)
     private String modifiedBy;//수정자
+
+    public AuditingFields(LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifiedAt = modifiedAt;
+        this.modifiedBy = modifiedBy;
+    }
 }

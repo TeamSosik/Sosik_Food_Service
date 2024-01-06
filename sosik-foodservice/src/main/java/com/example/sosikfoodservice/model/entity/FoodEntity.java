@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -22,7 +23,7 @@ import java.math.BigDecimal;
             )
         }
 )
-public class FoodEntity  extends AuditingFields{
+public class FoodEntity extends AuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,22 +44,27 @@ public class FoodEntity  extends AuditingFields{
 
     @Builder
     public FoodEntity(
-            final String name,
-            final BigDecimal carbo,
-            final BigDecimal protein,
-            final BigDecimal fat,
-            final BigDecimal kcal,
-            final BigDecimal size
-    ){
+            LocalDateTime createdAt,
+            String createdBy,
+            LocalDateTime modifiedAt,
+            String modifiedBy,
+            Long foodId,
+            String name,
+            BigDecimal carbo,
+            BigDecimal protein,
+            BigDecimal fat,
+            BigDecimal kcal,
+            BigDecimal size) {
+        super(createdAt, createdBy, modifiedAt, modifiedBy);
+        this.foodId = foodId;
         this.name = name;
-        this.carbo= carbo;
-        this.protein= protein;
-        this.fat= fat;
-        this.kcal= kcal;
-        this.size=size;
+        this.carbo = carbo;
+        this.protein = protein;
+        this.fat = fat;
+        this.kcal = kcal;
+        this.size = size;
     }
-
-//    @Builder
+    //    @Builder
 //    public FoodEntity(
 //            final String name,
 //            final BigDecimal carbo,
