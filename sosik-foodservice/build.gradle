@@ -26,8 +26,7 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -38,11 +37,13 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 	implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.0'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	testAnnotationProcessor 'org.projectlombok:lombok' // 테스트를 위한 세팅
+	testImplementation 'org.projectlombok:lombok' // 테스트를 위한 세팅
 
 }
 dependencyManagement {
