@@ -191,7 +191,7 @@ public class FoodServiceImplTest {
         });
 
         // then
-        assertThat(foodException.getFoodErrorCode()).isEqualTo(FoodErrorCode.FOOD_NOT_FOUND);
+        assertThat(foodException.getErrorCode()).isEqualTo(FoodErrorCode.FOOD_NOT_FOUND);
 
     }
     // 3. 음식상세보기성공_DB에있음

@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class FoodException extends RuntimeException {
 
-    private final FoodErrorCode foodErrorCode;
+    private final FoodErrorCode errorCode;
 
     public FoodException(FoodErrorCode foodErrorCode) {
-        this.foodErrorCode = foodErrorCode;
+        this.errorCode = foodErrorCode;
     }
 }
