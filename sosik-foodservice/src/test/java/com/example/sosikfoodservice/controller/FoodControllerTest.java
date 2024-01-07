@@ -2,9 +2,9 @@ package com.example.sosikfoodservice.controller;
 
 import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.exception.FoodErrorCode;
+import com.example.sosikfoodservice.exception.FoodException;
 import com.example.sosikfoodservice.service.FoodService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +18,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,11 +36,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-@Slf4j
 public class FoodControllerTest {
 
     @InjectMocks
@@ -175,9 +171,6 @@ public class FoodControllerTest {
         resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.result.totalElements").value(searchGetFoodList.size()));
         resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.resultCode").value("데이터 전송에 성공하였습니다!"));
 
-
-
-
     }
 
     private GetFood createGetFood(
@@ -212,6 +205,88 @@ public class FoodControllerTest {
         return new BigDecimal(num);
     }
 
+
+    // 음식 상세보기 시작
+    // 1. 음식상세보기실패_id가없음
+    @Test
+    void 음식상세보기실패_id가음수일때() throws Exception {
+
+        // given
+
+        // when
+        Long id = -1L;
+        String url = "/food/v1/" + id;
+
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+
+        // then
+        resultActions.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(HttpStatus.BAD_REQUEST.name()));
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.message").value("유효하지 않은 값입니다."));
+
+    }
+
+
+    // 2. 음식상세보기실패_service에서예외발생
+    @Test
+    void 음식상세보기실패_service에서예외발생() throws Exception {
+
+        // given
+        Long id = 20L;
+        String url = "/food/v1/" + id;
+
+        Mockito.doThrow(new FoodException(FoodErrorCode.FOOD_NOT_FOUND))
+                .when(foodService)
+                .getFood(id);
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+
+        // then
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound());
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(HttpStatus.NOT_FOUND.name()));
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                .value("음식데이터를 찾지 못했습니다.")
+        );
+
+    }
+
+    // 3. 상세보기성공
+    @Test
+    void 음식상세보기성공() throws Exception {
+
+        // given
+        Long id = 3L;
+        String url = "/food/v1/" + id;
+
+        Mockito.doReturn(
+                createGetFood(id, "sdf사과asdf", 10.1, 20, 30, 50.2, 20, "A과수농장", "A과수농장", LocalDateTime.now(), LocalDateTime.now())
+                )
+                .when(foodService)
+                .getFood(id);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+
+        // then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.result.foodId").value(id));
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.result.name")
+                .value("sdf사과asdf")
+        );
+
+
+
+    }
+
+
+
+    // 음식 상세보기 끝
 
 
 
