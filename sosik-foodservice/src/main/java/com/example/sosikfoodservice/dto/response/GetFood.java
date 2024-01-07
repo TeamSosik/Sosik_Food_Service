@@ -1,6 +1,7 @@
 package com.example.sosikfoodservice.dto.response;
 
 import com.example.sosikfoodservice.model.entity.FoodEntity;
+import com.example.sosikfoodservice.repository.redis.RedisFood;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -40,6 +41,7 @@ public class GetFood {
     public static GetFood create(FoodEntity foodEntity) {
 
         return GetFood.builder()
+                .foodId(foodEntity.getFoodId())
                 .name(foodEntity.getName())
                 .carbo(foodEntity.getCarbo())
                 .protein(foodEntity.getProtein())
@@ -50,6 +52,23 @@ public class GetFood {
                 .modifiedBy(foodEntity.getModifiedBy())
                 .createdAt(foodEntity.getCreatedAt())
                 .modifiedAt(foodEntity.getModifiedAt())
+                .build();
+    }
+
+    public static GetFood create(RedisFood redisFood) {
+
+        return GetFood.builder()
+                .foodId(redisFood.getFoodId())
+                .name(redisFood.getName())
+                .carbo(redisFood.getCarbo())
+                .protein(redisFood.getProtein())
+                .fat(redisFood.getFat())
+                .kcal(redisFood.getKcal())
+                .size(redisFood.getSize())
+                .createdBy(redisFood.getCreatedBy())
+                .modifiedBy(redisFood.getModifiedBy())
+                .createdAt(redisFood.getCreatedAt())
+                .modifiedAt(redisFood.getModifiedAt())
                 .build();
     }
 }

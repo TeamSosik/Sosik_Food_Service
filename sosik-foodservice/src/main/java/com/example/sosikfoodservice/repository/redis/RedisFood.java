@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -28,6 +29,10 @@ public class RedisFood {
     private BigDecimal fat;
     private BigDecimal kcal;
     private BigDecimal size;
+    private String createdBy; // 생성자
+    private String modifiedBy;//수정자
+    private LocalDateTime createdAt; // 생성일시
+    private LocalDateTime modifiedAt; //수정일시
 
     @Builder
     public RedisFood(
@@ -37,7 +42,11 @@ public class RedisFood {
             BigDecimal protein,
             BigDecimal fat,
             BigDecimal kcal,
-            BigDecimal size
+            BigDecimal size,
+            String createdBy,
+            String modifiedBy,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt
     ) {
         this.foodId = foodId;
         this.name = name;
@@ -46,6 +55,10 @@ public class RedisFood {
         this.fat = fat;
         this.kcal = kcal;
         this.size = size;
+        this.createdBy = createdBy;
+        this.modifiedBy = modifiedBy;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 
     public static RedisFood create(FoodEntity foodEntity) {
