@@ -2,8 +2,13 @@ package com.example.sosikfoodservice.service;
 
 import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.exception.FoodErrorCode;
+import com.example.sosikfoodservice.exception.FoodException;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
+import com.example.sosikfoodservice.repository.redis.RedisFood;
+import com.example.sosikfoodservice.repository.redis.RedisFoodRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,9 +21,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,12 +37,15 @@ public class FoodServiceImplTest {
     FoodServiceImpl foodServiceImpl;
     @Mock
     FoodRepository foodRepository;
+    @Mock
+    RedisFoodRepository redisFoodRepository;
 
     @Test
     void FoodRepository가_null이아님() {
 
         assertThat(foodRepository).isNotNull();
         assertThat(foodServiceImpl).isNotNull();
+        assertThat(redisFoodRepository).isNotNull();
     }
 
     /**
@@ -131,10 +141,148 @@ public class FoodServiceImplTest {
     }
 
     private BigDecimal createBigDecimal(double num) {
-        return new BigDecimal(num);
+        return new BigDecimal(num).setScale(1, RoundingMode.HALF_EVEN);// 소수점 자리수 정하기
+    }
+
+    // 음식 상세보기 시작
+
+    // 1. 음식상세보기성공_레디스에있음
+    @Test
+    void 음식상세보기성공_레디스에있음() {
+
+        // given
+        Long id = 1L;
+        RedisFood redisFood = createRedisFood(
+                id, "sdf사과asdf", 10.1, 20, 30, 50.2, 20, "A과수농장", "A과수농장", LocalDateTime.now(), LocalDateTime.now()
+        );
+
+        Mockito.doReturn(Optional.of(redisFood))
+                .when(redisFoodRepository)
+                .findById(id);
+
+        // when
+        GetFood result = foodServiceImpl.getFood(id);
+
+        // then
+        assertThat(result.getFoodId()).isEqualTo(id);
+        assertThat(result.getKcal()).isEqualTo(createBigDecimal(50.2));
+
+
+    }
+
+    // 2. 음식상세보기실패_레디스에없음_DB에없음_진짜실패
+    @Test
+    void 음식상세보기실패_레디스에없음_DB에없음() {
+
+        // given
+        Long id = 1L;
+        Mockito.doReturn(Optional.empty())
+                .when(redisFoodRepository)
+                .findById(id);
+
+        Mockito.doReturn(Optional.empty())
+                .when(foodRepository)
+                .findById(id);
+
+        // when
+
+        FoodException foodException = Assertions.assertThrows(FoodException.class, () -> {
+            foodServiceImpl.getFood(id);
+        });
+
+        // then
+        assertThat(foodException.getErrorCode()).isEqualTo(FoodErrorCode.FOOD_NOT_FOUND);
+
+    }
+    // 3. 음식상세보기성공_DB에있음
+        // 회원에게도 보여주고
+        // 레디스에도 저장한다.
+    @Test
+    void 음식상세보기성공_DB에있음() {
+
+        // given
+        Long id = 1L;
+        FoodEntity foodEntity = createFoodEntity(
+                id, "sdf사과asdf", 10.1, 20, 30, 50.2, 20, "A과수농장", "A과수농장", LocalDateTime.now(), LocalDateTime.now()
+        );
+        Mockito.doReturn(Optional.empty())
+                .when(redisFoodRepository)
+                .findById(id);
+
+        Mockito.doReturn(Optional.of(foodEntity))
+                .when(foodRepository)
+                .findById(id);
+
+        // when
+        GetFood result = foodServiceImpl.getFood(id);
+
+        // then
+        assertThat(result.getFoodId()).isEqualTo(id);
+        assertThat(result.getKcal()).isEqualTo(createBigDecimal(50.2));
+
     }
 
 
+
+    public RedisFood createRedisFood(
+            Long foodId,
+            String name,
+            double carbo,
+            double protein,
+            double fat,
+            double kcal,
+            double size,
+            String createdBy,
+            String modifiedBy,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt
+    ) {
+
+        return RedisFood.builder()
+                .foodId(foodId)
+                .name(name)
+                .carbo(createBigDecimal(carbo))
+                .protein(createBigDecimal(protein))
+                .fat(createBigDecimal(fat))
+                .kcal(createBigDecimal(kcal))
+                .size(createBigDecimal(size))
+                .createdAt(createdAt)
+                .modifiedAt(modifiedAt)
+                .createdBy(createdBy)
+                .modifiedBy(modifiedBy)
+                .build();
+    }
+
+    public FoodEntity createFoodEntity(
+            Long foodId,
+            String name,
+            double carbo,
+            double protein,
+            double fat,
+            double kcal,
+            double size,
+            String createdBy,
+            String modifiedBy,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt
+    ) {
+
+        return FoodEntity.builder()
+                .foodId(foodId)
+                .name(name)
+                .carbo(createBigDecimal(carbo))
+                .protein(createBigDecimal(protein))
+                .fat(createBigDecimal(fat))
+                .kcal(createBigDecimal(kcal))
+                .size(createBigDecimal(size))
+                .createdAt(createdAt)
+                .modifiedAt(modifiedAt)
+                .createdBy(createdBy)
+                .modifiedBy(modifiedBy)
+                .build();
+    }
+
+    // 음식 상세보기 끝
 
 
 

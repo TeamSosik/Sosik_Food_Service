@@ -1,6 +1,8 @@
 package com.example.sosikfoodservice.controller;
 
+import com.example.sosikfoodservice.exception.ErrorResult;
 import com.example.sosikfoodservice.exception.FieldErrorResult;
+import com.example.sosikfoodservice.exception.FoodException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +24,19 @@ public class FoodControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(body);
+    }
+
+    @ExceptionHandler(value = {FoodException.class})
+    public ResponseEntity<ErrorResult> FoodEx(FoodException e) {
+
+        ErrorResult body = ErrorResult.builder()
+                .code(e.getErrorCode().getHttpStatus())
+                .message(e.getErrorCode().getMessage())
+                .build();
+
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(body);
+
     }
 
 
