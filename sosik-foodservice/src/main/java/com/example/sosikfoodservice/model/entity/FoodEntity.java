@@ -27,6 +27,7 @@ public class FoodEntity extends AuditingFields{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long foodId;
     @Column(name = "name", nullable = false)
     private String name;
