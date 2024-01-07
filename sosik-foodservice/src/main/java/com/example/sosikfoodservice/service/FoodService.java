@@ -1,9 +1,9 @@
 package com.example.sosikfoodservice.service;
 
-import com.example.sosikfoodservice.dto.GetFood;
-import com.example.sosikfoodservice.dto.GetFoodListCondition;
+import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
 import org.springframework.data.domain.Page;
 
 public interface FoodService {
-    Page<GetFood> getFoodList(GetFoodListCondition condition);
+    Page<GetFood> getFoodPage(GetFoodPageCondition condition);
 }

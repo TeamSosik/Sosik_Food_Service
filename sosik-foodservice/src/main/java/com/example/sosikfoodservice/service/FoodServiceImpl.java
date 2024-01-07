@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.service;
 
-import com.example.sosikfoodservice.dto.GetFood;
-import com.example.sosikfoodservice.dto.GetFoodListCondition;
+import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepository;
 
     @Override
-    public Page<GetFood> getFoodList(GetFoodListCondition condition) {
+    public Page<GetFood> getFoodPage(GetFoodPageCondition condition) {
 
         // Pageable 만들기
         int realPage = 0;

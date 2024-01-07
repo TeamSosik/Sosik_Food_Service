@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.service;
 
-import com.example.sosikfoodservice.dto.GetFood;
-import com.example.sosikfoodservice.dto.GetFoodListCondition;
+import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
 import org.junit.jupiter.api.Test;
@@ -89,13 +89,13 @@ public class FoodServiceImplTest {
                 .findPageByNameContainingOrderByNameDesc(searchName, pageable);
 
         // when
-        GetFoodListCondition condition = GetFoodListCondition.builder()
+        GetFoodPageCondition condition = GetFoodPageCondition.builder()
                 .name(searchName)
                 .page(page)
                 .size(size)
                 .build();
 
-        Page<GetFood> result = foodServiceImpl.getFoodList(condition);
+        Page<GetFood> result = foodServiceImpl.getFoodPage(condition);
 
         // then
         assertThat(result.getTotalElements()).isEqualTo(searchFoodList.size());
