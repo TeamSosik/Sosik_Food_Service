@@ -71,6 +71,10 @@ public class RedisFood {
                 .fat(foodEntity.getFat())
                 .kcal(foodEntity.getKcal())
                 .size(foodEntity.getSize())
+                .createdAt(foodEntity.getCreatedAt())
+                .modifiedAt(foodEntity.getModifiedAt())
+                .createdBy(foodEntity.getCreatedBy())
+                .modifiedBy(foodEntity.getModifiedBy())
                 .build();
     }
 }
