@@ -26,7 +26,9 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.0'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -45,12 +47,14 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok' // 테스트를 위한 세팅
 	testImplementation 'org.projectlombok:lombok' // 테스트를 위한 세팅
 
+
 	//querydsl dependencies 추가(스프링부트 3.0 이상)
 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 }
 
 dependencyManagement {
