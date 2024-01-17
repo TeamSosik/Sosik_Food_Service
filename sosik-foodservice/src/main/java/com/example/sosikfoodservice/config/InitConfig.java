@@ -6,6 +6,7 @@ import com.example.sosikfoodservice.repository.redis.RedisFood;
 import com.example.sosikfoodservice.repository.redis.RedisFoodRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +24,9 @@ public class InitConfig {
 
     private final RedisFoodRepository redisFoodRepository;
     private final FoodRepository foodRepository;
+    private final long executionTime = 1000 * 60 * 28;// 28분마다 한번씩 실행
 
+    @Scheduled(fixedRate = executionTime)
     @PostConstruct
     private void init() {
 
