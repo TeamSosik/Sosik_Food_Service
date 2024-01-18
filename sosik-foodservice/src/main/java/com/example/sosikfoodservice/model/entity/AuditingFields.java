@@ -3,13 +3,10 @@ package com.example.sosikfoodservice.model.entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,23 +21,13 @@ import java.time.LocalDateTime;
 public class AuditingFields {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
-//    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt; // 생성일시
-    @CreatedBy
-//    @Column(nullable = false, length = 100,updatable = false)
-    private String createdBy; // 생성자
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
-//    @Column(nullable = false)
     private LocalDateTime modifiedAt; //수정일시
-    @LastModifiedBy
-//    @Column(nullable = false, length = 100)
-    private String modifiedBy;//수정자
 
     public AuditingFields(LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         this.createdAt = createdAt;
-        this.createdBy = createdBy;
         this.modifiedAt = modifiedAt;
-        this.modifiedBy = modifiedBy;
     }
 }

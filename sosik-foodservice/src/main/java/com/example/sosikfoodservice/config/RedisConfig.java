@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisKeyValueAdapter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -14,9 +15,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableRedisRepositories(
-    enableKeyspaceEvents =
-            RedisKeyValueAdapter
-                    .EnableKeyspaceEvents.ON_STARTUP // ttl에 의해 관련키(Indexed로 생성된) 모두 삭제된다.
+        enableKeyspaceEvents =
+                RedisKeyValueAdapter
+                        .EnableKeyspaceEvents.ON_STARTUP // ttl에 의해 관련키(Indexed로 생성된) 모두 삭제된다.
 )
 public class RedisConfig {
 
@@ -41,8 +42,6 @@ public class RedisConfig {
 
         return redisTemplate;
     }
-
-
     // redisFactory 생성
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
@@ -54,7 +53,10 @@ public class RedisConfig {
         return lettuceConnectionFactory;
     }
 
-
+    @Bean
+    public ListOperations<String, String> listOperations(RedisTemplate<String, String> redisTemplate) {
+        return redisTemplate.opsForList();
+    }
 
 
 }

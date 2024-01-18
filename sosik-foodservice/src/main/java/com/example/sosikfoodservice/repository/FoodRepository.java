@@ -13,4 +13,7 @@ public interface FoodRepository extends JpaRepository<FoodEntity, Long>, FoodRep
     List<FoodEntity> findByNameContainingOrderByNameDesc(String name);
 
     Page<FoodEntity> findPageByNameContainingOrderByNameDesc(String name, Pageable pageable);
+
+
+//    List<FoodEntity> findTop10ByNameContainsOrderByName(String name);
 }

@@ -2,10 +2,8 @@ package com.example.sosikfoodservice.repository.querycustom;
 
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.model.entity.QFoodEntity;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -13,25 +11,20 @@ import java.util.List;
 public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+    QFoodEntity foodEntity = QFoodEntity.foodEntity;
 
     @Override
-    public List<FoodEntity> findAllByNameContains(String name) {
-
-        return jpaQueryFactory.select(QFoodEntity.foodEntity)
-                .from(QFoodEntity.foodEntity)
-                .where(nameContains(name))
+    public List<FoodEntity> find10FoodBySearch(String name) {
+        return jpaQueryFactory.select(foodEntity)
+                .from(foodEntity)
+                .where(foodEntity.name.like(name+"%"))
+                .orderBy(foodEntity.name.length().asc())
+                .limit(10)
                 .fetch();
-
-
-    }
-
-    // contains
-    private BooleanExpression nameContains(String name) {
-
-        return StringUtils.hasText(name) ? QFoodEntity.foodEntity.name.contains(name) : null;
-    }
-
-
-
+        }
 
 }
+
+
+
+
