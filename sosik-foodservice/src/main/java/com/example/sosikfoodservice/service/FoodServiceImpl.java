@@ -78,12 +78,12 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<GetFood> getFoodName(String inputValue) {
-        try{
+        try {
             return foodRepository.find10FoodBySearch(inputValue)
                     .stream()
                     .map(GetFood::create)
                     .collect(Collectors.toList());
-        }catch (RuntimeException ignored){
+        } catch (RuntimeException ignored) {
 
         }
         return null;
