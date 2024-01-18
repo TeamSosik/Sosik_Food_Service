@@ -5,5 +5,5 @@ import com.example.sosikfoodservice.model.entity.FoodEntity;
 import java.util.List;
 
 public interface FoodRepositoryCustom {
-    List<FoodEntity> findAllByNameContains(String name);
+    List<FoodEntity> find10FoodBySearch(String name);
 }

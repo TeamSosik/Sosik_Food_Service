@@ -1,10 +1,11 @@
 package com.example.sosikfoodservice.model.entity;
 
 
-
-import com.example.sosikfoodservice.model.entity.vo.Name;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -65,15 +66,4 @@ public class FoodEntity extends AuditingFields{
         this.kcal = kcal;
         this.size = size;
     }
-    //    @Builder
-//    public FoodEntity(
-//            final String name,
-//            final BigDecimal carbo,
-//            final BigDecimal protein,
-//            final BigDecimal fat,
-//            final BigDecimal kcal,
-//            final BigDecimal size
-//    ){
-//        this(new Name(name), carbo, protein, fat, kcal, size);
-//    }
 }

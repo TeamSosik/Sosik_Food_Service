@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.controller;
 
-import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.dto.response.Result;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
+import java.util.List;
 
-@RequestMapping("/food")
+@RequestMapping("/food/v1")
 @RequiredArgsConstructor
 @RestController
 public class FoodController {
@@ -28,7 +28,7 @@ public class FoodController {
     /**
      * TODO : 필요한 데이터만 있는 PageDTO 만들어 보기
      */
-    @GetMapping("/v1")
+    @GetMapping
     public Result<Page<GetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
 
         System.out.println(condition.getPage());
@@ -40,10 +40,10 @@ public class FoodController {
         return Result.success(result);
     }
 
-    @GetMapping("/v1/{foodId}")
+    @GetMapping("/{foodId}")
     public ResponseEntity<Result<GetFood>> getFood(@PathVariable Long foodId) {
 
-        if(foodId < 0) {
+        if (foodId < 0) {
             throw new FoodException(FoodErrorCode.INVALID_PARAMETERS);
         }
 
@@ -53,9 +53,11 @@ public class FoodController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(body);
-
     }
-
+    @GetMapping("/search")
+    public Result<List<GetFood>> getFoodPage(String inputValue) {
+        return Result.success(foodService.getFoodName(inputValue));
+    }
 
 
 }

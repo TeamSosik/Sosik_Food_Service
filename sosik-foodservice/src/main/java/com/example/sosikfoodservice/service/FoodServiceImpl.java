@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.service;
 
-import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.dto.response.GetFood;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
@@ -15,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class FoodServiceImpl implements FoodService {
 
         // Pageable 만들기
         int realPage = 0;
-        if(condition.getPage() != 0) {
+        if (condition.getPage() != 0) {
             realPage = condition.getPage() - 1;
         }
         Pageable pageable = createPage(realPage, condition.getSize());
@@ -39,15 +41,13 @@ public class FoodServiceImpl implements FoodService {
         Page<FoodEntity> pageFoodList = foodRepository.findPageByNameContainingOrderByNameDesc(condition.getName(), pageable);
 
         // dto Page로 만들기
-        Page<GetFood> pageGetFood = pageFoodList.map(GetFood::create);
 
-        return pageGetFood;
+        return pageFoodList.map(GetFood::create);
     }
 
     private Pageable createPage(int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size);
-        return pageable;
+        return PageRequest.of(page, size);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class FoodServiceImpl implements FoodService {
         // 레디스에있으면 DTO 만들어서 바로 리턴
         Optional<RedisFood> OptionalRedisFood = redisFoodRepository.findById(id);
 
-        if(OptionalRedisFood.isPresent()) {
+        if (OptionalRedisFood.isPresent()) {
             RedisFood redisFood = OptionalRedisFood.get();
             return GetFood.create(redisFood);
         }
 
         Optional<FoodEntity> optionalFood = foodRepository.findById(id);
 
-        if(optionalFood.isEmpty()) {
+        if (optionalFood.isEmpty()) {
             throw new FoodException(FoodErrorCode.FOOD_NOT_FOUND);
         }
         FoodEntity food = optionalFood.get();
@@ -74,5 +74,18 @@ public class FoodServiceImpl implements FoodService {
 
         // 회원에게도 보여준다.
         return GetFood.create(food);
+    }
+
+    @Override
+    public List<GetFood> getFoodName(String inputValue) {
+        try{
+            return foodRepository.find10FoodBySearch(inputValue)
+                    .stream()
+                    .map(GetFood::create)
+                    .collect(Collectors.toList());
+        }catch (RuntimeException ignored){
+
+        }
+        return null;
     }
 }
