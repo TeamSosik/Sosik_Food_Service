@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-public class GetFood {
+public class ResponseGetFood {
 
     private Long foodId;
     private String name;
@@ -24,7 +24,7 @@ public class GetFood {
     private LocalDateTime modifiedAt; //수정일시
 
     @Builder
-    public GetFood(Long foodId, String name, BigDecimal carbo, BigDecimal protein, BigDecimal fat, BigDecimal kcal, BigDecimal size, String createdBy, String modifiedBy, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public ResponseGetFood(Long foodId, String name, BigDecimal carbo, BigDecimal protein, BigDecimal fat, BigDecimal kcal, BigDecimal size, String createdBy, String modifiedBy, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.foodId = foodId;
         this.name = name;
         this.carbo = carbo;
@@ -38,9 +38,9 @@ public class GetFood {
         this.modifiedAt = modifiedAt;
     }
 
-    public static GetFood create(FoodEntity foodEntity) {
+    public static ResponseGetFood create(FoodEntity foodEntity) {
 
-        return GetFood.builder()
+        return ResponseGetFood.builder()
                 .foodId(foodEntity.getFoodId())
                 .name(foodEntity.getName())
                 .carbo(foodEntity.getCarbo())
@@ -55,9 +55,9 @@ public class GetFood {
                 .build();
     }
 
-    public static GetFood create(RedisFood redisFood) {
+    public static ResponseGetFood create(RedisFood redisFood) {
 
-        return GetFood.builder()
+        return ResponseGetFood.builder()
                 .foodId(redisFood.getFoodId())
                 .name(redisFood.getName())
                 .carbo(redisFood.getCarbo())
