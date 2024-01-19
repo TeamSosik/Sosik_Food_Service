@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.controller;
 
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
-import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.response.ResponseGetFood;
 import com.example.sosikfoodservice.dto.response.Result;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
@@ -29,33 +29,33 @@ public class FoodController {
      * TODO : 필요한 데이터만 있는 PageDTO 만들어 보기
      */
     @GetMapping
-    public Result<Page<GetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
+    public Result<Page<ResponseGetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
 
         System.out.println(condition.getPage());
         System.out.println(condition.getName());
         System.out.println(condition.getSize());
 
-        Page<GetFood> result = foodService.getFoodPage(condition);
+        Page<ResponseGetFood> result = foodService.getFoodPage(condition);
 
         return Result.success(result);
     }
 
     @GetMapping("/{foodId}")
-    public ResponseEntity<Result<GetFood>> getFood(@PathVariable Long foodId) {
+    public ResponseEntity<Result<ResponseGetFood>> getFood(@PathVariable Long foodId) {
 
         if (foodId < 0) {
             throw new FoodException(FoodErrorCode.INVALID_PARAMETERS);
         }
 
-        GetFood result = foodService.getFood(foodId);
+        ResponseGetFood result = foodService.getFood(foodId);
 
-        Result<GetFood> body = Result.success(result);
+        Result<ResponseGetFood> body = Result.success(result);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(body);
     }
     @GetMapping("/search")
-    public Result<List<GetFood>> getFoodPage(String inputValue) {
+    public Result<List<ResponseGetFood>> getFoodPage(String inputValue) {
         return Result.success(foodService.getFoodName(inputValue));
     }
 

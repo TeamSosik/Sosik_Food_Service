@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.service;
 
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
-import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.response.ResponseGetFood;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
@@ -28,7 +28,7 @@ public class FoodServiceImpl implements FoodService {
     private final RedisFoodRepository redisFoodRepository;
 
     @Override
-    public Page<GetFood> getFoodPage(GetFoodPageCondition condition) {
+    public Page<ResponseGetFood> getFoodPage(GetFoodPageCondition condition) {
 
         // Pageable 만들기
         int realPage = 0;
@@ -42,7 +42,7 @@ public class FoodServiceImpl implements FoodService {
 
         // dto Page로 만들기
 
-        return pageFoodList.map(GetFood::create);
+        return pageFoodList.map(ResponseGetFood::create);
     }
 
     private Pageable createPage(int page, int size) {
@@ -51,14 +51,14 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public GetFood getFood(Long id) {
+    public ResponseGetFood getFood(Long id) {
 
         // 레디스에있으면 DTO 만들어서 바로 리턴
         Optional<RedisFood> OptionalRedisFood = redisFoodRepository.findById(id);
 
         if (OptionalRedisFood.isPresent()) {
             RedisFood redisFood = OptionalRedisFood.get();
-            return GetFood.create(redisFood);
+            return ResponseGetFood.create(redisFood);
         }
 
         Optional<FoodEntity> optionalFood = foodRepository.findById(id);
@@ -73,15 +73,15 @@ public class FoodServiceImpl implements FoodService {
         redisFoodRepository.save(redisFood);
 
         // 회원에게도 보여준다.
-        return GetFood.create(food);
+        return ResponseGetFood.create(food);
     }
 
     @Override
-    public List<GetFood> getFoodName(String inputValue) {
+    public List<ResponseGetFood> getFoodName(String inputValue) {
         try {
             return foodRepository.find10FoodBySearch(inputValue)
                     .stream()
-                    .map(GetFood::create)
+                    .map(ResponseGetFood::create)
                     .collect(Collectors.toList());
         } catch (RuntimeException ignored) {
 
