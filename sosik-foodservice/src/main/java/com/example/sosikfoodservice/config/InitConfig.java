@@ -2,7 +2,7 @@ package com.example.sosikfoodservice.config;
 
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
-import com.example.sosikfoodservice.repository.redis.RedisFood;
+import com.example.sosikfoodservice.repository.redis.CacheFood;
 import com.example.sosikfoodservice.repository.redis.RedisFoodRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +31,8 @@ public class InitConfig {
 
         List<FoodEntity> foodList = foodRepository.findAll();
 
-        List<RedisFood> redisFoodList = foodList.stream()
-                .map(RedisFood::create)
+        List<CacheFood> redisFoodList = foodList.stream()
+                .map(CacheFood::create)
                 .collect(toList());
 
         redisFoodRepository.saveAll(redisFoodList);

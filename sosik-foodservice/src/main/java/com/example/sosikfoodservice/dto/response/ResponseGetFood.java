@@ -1,7 +1,7 @@
 package com.example.sosikfoodservice.dto.response;
 
 import com.example.sosikfoodservice.model.entity.FoodEntity;
-import com.example.sosikfoodservice.repository.redis.RedisFood;
+import com.example.sosikfoodservice.repository.redis.CacheFood;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -55,7 +55,7 @@ public class ResponseGetFood {
                 .build();
     }
 
-    public static ResponseGetFood create(RedisFood redisFood) {
+    public static ResponseGetFood create(CacheFood redisFood) {
 
         return ResponseGetFood.builder()
                 .foodId(redisFood.getFoodId())
