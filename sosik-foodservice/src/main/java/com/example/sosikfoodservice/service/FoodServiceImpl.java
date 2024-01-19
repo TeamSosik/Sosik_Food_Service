@@ -6,7 +6,7 @@ import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
 import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
-import com.example.sosikfoodservice.repository.redis.RedisFood;
+import com.example.sosikfoodservice.repository.redis.CacheFood;
 import com.example.sosikfoodservice.repository.redis.RedisFoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,10 +54,10 @@ public class FoodServiceImpl implements FoodService {
     public ResponseGetFood getFood(Long id) {
 
         // 레디스에있으면 DTO 만들어서 바로 리턴
-        Optional<RedisFood> OptionalRedisFood = redisFoodRepository.findById(id);
+        Optional<CacheFood> OptionalRedisFood = redisFoodRepository.findById(id);
 
         if (OptionalRedisFood.isPresent()) {
-            RedisFood redisFood = OptionalRedisFood.get();
+            CacheFood redisFood = OptionalRedisFood.get();
             return ResponseGetFood.create(redisFood);
         }
 
@@ -69,7 +69,7 @@ public class FoodServiceImpl implements FoodService {
         FoodEntity food = optionalFood.get();
 
         // 레디스에도 저장한다.
-        RedisFood redisFood = RedisFood.create(food);
+        CacheFood redisFood = CacheFood.create(food);
         redisFoodRepository.save(redisFood);
 
         // 회원에게도 보여준다.

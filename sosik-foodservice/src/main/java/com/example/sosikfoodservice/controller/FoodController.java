@@ -30,7 +30,7 @@ public class FoodController {
      */
     @GetMapping
     public Result<Page<ResponseGetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
-        Page<GetFood> result = foodService.getFoodPage(condition);
+        Page<ResponseGetFood> result = foodService.getFoodPage(condition);
         return Result.success(result);
     }
 
