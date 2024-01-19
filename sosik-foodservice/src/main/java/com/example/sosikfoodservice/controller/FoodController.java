@@ -30,13 +30,7 @@ public class FoodController {
      */
     @GetMapping
     public Result<Page<ResponseGetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
-
-        System.out.println(condition.getPage());
-        System.out.println(condition.getName());
-        System.out.println(condition.getSize());
-
-        Page<ResponseGetFood> result = foodService.getFoodPage(condition);
-
+        Page<GetFood> result = foodService.getFoodPage(condition);
         return Result.success(result);
     }
 
