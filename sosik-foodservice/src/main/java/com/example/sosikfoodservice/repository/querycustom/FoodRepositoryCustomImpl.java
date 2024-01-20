@@ -21,7 +21,7 @@ public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
 
         List<FoodEntity> entity = jpaQueryFactory
                 .selectFrom(foodEntity)
-                .where(foodEntity.name.like(name + "%"))
+                .where(foodEntity.name.like("%" + name + "%"))
                 .orderBy(foodEntity.name.length().asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -31,7 +31,8 @@ public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
         Long total = jpaQueryFactory
                 .select(foodEntity.count())
                 .from(foodEntity)
-                .where(foodEntity.name.like(name + "%"))
+                .where(foodEntity.name.like(name))
+                .where(foodEntity.name.like("%" + name + "%"))
                 .orderBy(foodEntity.name.length().asc())
                 .fetchFirst();
 
