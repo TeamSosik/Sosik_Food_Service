@@ -1,6 +1,6 @@
 package com.example.sosikfoodservice.config;
 
-import com.example.sosikfoodservice.repository.redis.RedisFood;
+import com.example.sosikfoodservice.repository.redis.CacheFood;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,14 +30,14 @@ public class RedisConfig {
 
     // redisTemplate 생성
     @Bean
-    public RedisTemplate<String, RedisFood> redisTemplate() {
+    public RedisTemplate<String, CacheFood> redisTemplate() {
 
-        RedisTemplate<String, RedisFood> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, CacheFood> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(
-                new Jackson2JsonRedisSerializer<RedisFood>(RedisFood.class)
+                new Jackson2JsonRedisSerializer<CacheFood>(CacheFood.class)
         );
 
         return redisTemplate;

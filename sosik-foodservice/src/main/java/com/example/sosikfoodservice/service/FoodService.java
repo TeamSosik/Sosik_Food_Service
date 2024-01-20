@@ -1,15 +1,15 @@
 package com.example.sosikfoodservice.service;
 
 import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
-import com.example.sosikfoodservice.dto.response.GetFood;
+import com.example.sosikfoodservice.dto.response.ResponseGetFood;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface FoodService {
-    Page<GetFood> getFoodPage(GetFoodPageCondition condition);
+    Page<ResponseGetFood> getFoodPage(GetFoodPageCondition condition);
 
-    GetFood getFood(Long id);
+    ResponseGetFood getFood(Long id);
 
-    List<GetFood> getFoodName(String inputValue);
+    List<ResponseGetFood> getFoodName(String inputValue);
 }

@@ -4,9 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface RedisFoodRepository extends CrudRepository<RedisFood, Long> {
+public interface RedisFoodRepository extends CrudRepository<CacheFood, Long> {
 
-    List<RedisFood> findAll();
+    List<CacheFood> findAll();
 
-    List<RedisFood> findTop10ByNameContainingIgnoreCase(String inputValue);
+    List<CacheFood> findTop10ByNameContainingIgnoreCase(String inputValue);
 }
