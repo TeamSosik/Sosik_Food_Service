@@ -4,7 +4,6 @@ import com.example.sosikfoodservice.model.entity.FoodEntity;
 import com.example.sosikfoodservice.repository.FoodRepository;
 import com.example.sosikfoodservice.repository.redis.CacheFood;
 import com.example.sosikfoodservice.repository.redis.RedisFoodRepository;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -26,7 +25,6 @@ public class InitConfig {
     private final long executionTime = 1000 * 60 * 28;// 28분마다 한번씩 실행
 
     @Scheduled(fixedRate = executionTime)
-    @PostConstruct
     private void init() {
 
         List<FoodEntity> foodList = foodRepository.findAll();
