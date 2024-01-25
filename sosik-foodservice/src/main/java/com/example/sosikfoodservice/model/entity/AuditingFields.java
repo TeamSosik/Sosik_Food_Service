@@ -22,15 +22,11 @@ public class AuditingFields {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     private LocalDateTime createdAt; // 생성일시
-
-    private String createdBy;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
     private LocalDateTime modifiedAt; //수정일시
 
-    private String modifiedBy;
-
-    public AuditingFields(LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+    public AuditingFields(LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }

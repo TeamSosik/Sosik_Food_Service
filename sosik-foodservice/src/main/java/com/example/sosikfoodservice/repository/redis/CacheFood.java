@@ -28,9 +28,9 @@ public class CacheFood {
     private BigDecimal protein;
     private BigDecimal fat;
     private BigDecimal kcal;
-    private BigDecimal size;
-    private String createdBy; // 생성자
-    private String modifiedBy;//수정자
+    private BigDecimal sugars;
+    private String manufacturer;
+    private String image;
     private LocalDateTime createdAt; // 생성일시
     private LocalDateTime modifiedAt; //수정일시
 
@@ -42,9 +42,9 @@ public class CacheFood {
             BigDecimal protein,
             BigDecimal fat,
             BigDecimal kcal,
-            BigDecimal size,
-            String createdBy,
-            String modifiedBy,
+            BigDecimal sugars,
+            String manufacturer,
+            String image,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
     ) {
@@ -53,10 +53,10 @@ public class CacheFood {
         this.carbo = carbo;
         this.protein = protein;
         this.fat = fat;
+        this.sugars = sugars;
         this.kcal = kcal;
-        this.size = size;
-        this.createdBy = createdBy;
-        this.modifiedBy = modifiedBy;
+        this.manufacturer = manufacturer;
+        this.image = image;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
@@ -69,12 +69,12 @@ public class CacheFood {
                 .carbo(foodEntity.getCarbo())
                 .protein(foodEntity.getProtein())
                 .fat(foodEntity.getFat())
+                .sugars(foodEntity.getSugars())
                 .kcal(foodEntity.getKcal())
-                .size(foodEntity.getSize())
+                .manufacturer(foodEntity.getManufacturer())
+                .image(foodEntity.getImage())
                 .createdAt(foodEntity.getCreatedAt())
                 .modifiedAt(foodEntity.getModifiedAt())
-                .createdBy(foodEntity.getCreatedBy())
-                .modifiedBy(foodEntity.getModifiedBy())
                 .build();
     }
 }

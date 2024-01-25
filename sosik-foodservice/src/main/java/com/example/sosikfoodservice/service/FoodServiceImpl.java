@@ -61,12 +61,10 @@ public class FoodServiceImpl implements FoodService {
             return ResponseGetFood.create(redisFood);
         }
 
-        Optional<FoodEntity> optionalFood = foodRepository.findById(id);
-
-        if (optionalFood.isEmpty()) {
-            throw new FoodException(FoodErrorCode.FOOD_NOT_FOUND);
-        }
-        FoodEntity food = optionalFood.get();
+        FoodEntity food = foodRepository.findById(id)
+                .orElseThrow(() -> {
+                    return new FoodException(FoodErrorCode.FOOD_NOT_FOUND);
+                });
 
         // 레디스에도 저장한다.
         CacheFood redisFood = CacheFood.create(food);
