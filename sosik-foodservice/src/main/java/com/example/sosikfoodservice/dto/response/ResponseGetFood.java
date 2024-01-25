@@ -16,24 +16,34 @@ public class ResponseGetFood {
     private BigDecimal carbo;
     private BigDecimal protein;
     private BigDecimal fat;
+    private BigDecimal sugars;
     private BigDecimal kcal;
-    private BigDecimal size;
-    private String createdBy; // 생성자
-    private String modifiedBy;//수정자
-    private LocalDateTime createdAt; // 생성일시
-    private LocalDateTime modifiedAt; //수정일시
+    private String manufacturer;
+    private String image;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     @Builder
-    public ResponseGetFood(Long foodId, String name, BigDecimal carbo, BigDecimal protein, BigDecimal fat, BigDecimal kcal, BigDecimal size, String createdBy, String modifiedBy, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public ResponseGetFood(Long foodId,
+                           String name,
+                           BigDecimal carbo,
+                           BigDecimal protein,
+                           BigDecimal fat,
+                           BigDecimal sugars,
+                           BigDecimal kcal,
+                           String manufacturer,
+                           String image,
+                           LocalDateTime createdAt,
+                           LocalDateTime modifiedAt) {
         this.foodId = foodId;
         this.name = name;
         this.carbo = carbo;
         this.protein = protein;
         this.fat = fat;
+        this.sugars = sugars;
         this.kcal = kcal;
-        this.size = size;
-        this.createdBy = createdBy;
-        this.modifiedBy = modifiedBy;
+        this.manufacturer = manufacturer;
+        this.image = image;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
@@ -46,10 +56,10 @@ public class ResponseGetFood {
                 .carbo(foodEntity.getCarbo())
                 .protein(foodEntity.getProtein())
                 .fat(foodEntity.getFat())
+                .sugars(foodEntity.getSugars())
                 .kcal(foodEntity.getKcal())
-                .size(foodEntity.getSize())
-                .createdBy(foodEntity.getCreatedBy())
-                .modifiedBy(foodEntity.getModifiedBy())
+                .image(foodEntity.getImage())
+                .manufacturer(foodEntity.getManufacturer())
                 .createdAt(foodEntity.getCreatedAt())
                 .modifiedAt(foodEntity.getModifiedAt())
                 .build();
@@ -63,10 +73,10 @@ public class ResponseGetFood {
                 .carbo(redisFood.getCarbo())
                 .protein(redisFood.getProtein())
                 .fat(redisFood.getFat())
+                .sugars(redisFood.getSugars())
                 .kcal(redisFood.getKcal())
-                .size(redisFood.getSize())
-                .createdBy(redisFood.getCreatedBy())
-                .modifiedBy(redisFood.getModifiedBy())
+                .image(redisFood.getImage())
+                .manufacturer(redisFood.getManufacturer())
                 .createdAt(redisFood.getCreatedAt())
                 .modifiedAt(redisFood.getModifiedAt())
                 .build();
