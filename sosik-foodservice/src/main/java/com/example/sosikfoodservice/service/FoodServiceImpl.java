@@ -1,6 +1,6 @@
 package com.example.sosikfoodservice.service;
 
-import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.dto.request.RequestGetFoodPage;
 import com.example.sosikfoodservice.dto.response.ResponseGetFood;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
 import com.example.sosikfoodservice.exception.FoodException;
@@ -28,7 +28,7 @@ public class FoodServiceImpl implements FoodService {
     private final RedisFoodRepository redisFoodRepository;
 
     @Override
-    public Page<ResponseGetFood> getFoodPage(GetFoodPageCondition condition) {
+    public Page<ResponseGetFood> getFoodPage(RequestGetFoodPage condition) {
 
         // Pageable 만들기
         int realPage = 0;
