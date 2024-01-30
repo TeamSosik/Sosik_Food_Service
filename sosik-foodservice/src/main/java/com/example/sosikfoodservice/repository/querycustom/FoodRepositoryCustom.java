@@ -9,5 +9,5 @@ import java.util.List;
 public interface FoodRepositoryCustom {
 
     Page<FoodEntity> findPageByNameContainingOrderByNameDesc(String name, Pageable pageable);
-    List<FoodEntity> find10FoodBySearch(String name);
+    List<FoodEntity> findTop10FoodBySearch(String name);
 }

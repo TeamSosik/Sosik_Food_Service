@@ -27,7 +27,6 @@ public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-
         Long total = jpaQueryFactory
                 .select(foodEntity.count())
                 .from(foodEntity)
@@ -39,7 +38,7 @@ public class FoodRepositoryCustomImpl implements FoodRepositoryCustom {
     }
 
     @Override
-    public List<FoodEntity> find10FoodBySearch(String name) {
+    public List<FoodEntity> findTop10FoodBySearch(String name) {
         return jpaQueryFactory.select(foodEntity)
                 .from(foodEntity)
                 .where(foodEntity.name.like(name + "%"))
