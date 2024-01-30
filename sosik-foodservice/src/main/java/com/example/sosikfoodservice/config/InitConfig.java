@@ -22,7 +22,7 @@ public class InitConfig {
 
     private final RedisFoodRepository redisFoodRepository;
     private final FoodRepository foodRepository;
-    private final long executionTime = 1000 * 60 * 28;// 28분마다 한번씩 실행
+    private final long executionTime = 1000 * 60 * 60 * 23 + 1000 * 60 * 28;
 
     @Scheduled(fixedRate = executionTime)
     private void init() {
