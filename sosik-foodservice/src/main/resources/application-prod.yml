@@ -1,0 +1,69 @@
+server:
+  port: 9002
+
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: false
+
+  application:
+    name: food-service
+
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+      settings:
+        web-allow-others: true
+
+  datasource:
+    #h2
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:mem:testdb
+    #    username: sa
+
+    # mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database-1.cfuukai6usfo.ap-northeast-2.rds.amazonaws.com:3306
+    username: admin
+    password: test1234
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect=org:
+          hibernate:
+            dialect:
+              MySQLDialect:
+        format_sql: true
+        use_sql_comments: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+
+  data:
+    redis:
+      host: sosik-redis-srsogj.serverless.apn2.cache.amazonaws.com
+      port: 6379
+      password: redis
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+#      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://www.so-sik.com:8761/eureka
+
+#jpa log
+logging:
+  level:
+    org:
+      hibernate:
+        orm.jdbc.bind: trace # 3버전
+        sql: debug
+        type:
+          descriptor.sql: trace # 2버전
