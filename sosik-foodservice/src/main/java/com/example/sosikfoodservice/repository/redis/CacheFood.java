@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @RedisHash(
         value = "cacheFood",
-        timeToLive = 60 * 30 // 30분
+        timeToLive = 60 * 60 * 24 // 하루
 )
 public class CacheFood {
 

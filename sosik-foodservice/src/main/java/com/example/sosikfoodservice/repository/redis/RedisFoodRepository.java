@@ -7,6 +7,4 @@ import java.util.List;
 public interface RedisFoodRepository extends CrudRepository<CacheFood, Long> {
 
     List<CacheFood> findAll();
-
-    List<CacheFood> findTop10ByNameContainingIgnoreCase(String inputValue);
 }

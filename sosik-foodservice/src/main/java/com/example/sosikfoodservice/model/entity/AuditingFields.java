@@ -21,10 +21,10 @@ import java.time.LocalDateTime;
 public class AuditingFields {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
-    private LocalDateTime createdAt; // 생성일시
+    private LocalDateTime createdAt;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
-    private LocalDateTime modifiedAt; //수정일시
+    private LocalDateTime modifiedAt;
 
     public AuditingFields(LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.createdAt = createdAt;

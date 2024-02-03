@@ -1,6 +1,5 @@
 package com.example.sosikfoodservice.model.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,8 +49,6 @@ public class FoodEntity extends AuditingFields{
     private String manufacturer;
     @Column(length = 4000)
     private String image;
-
-
 
     @Builder
     public FoodEntity(

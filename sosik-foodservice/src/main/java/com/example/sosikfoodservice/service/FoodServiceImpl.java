@@ -30,17 +30,13 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Page<ResponseGetFood> getFoodPage(GetFoodPageCondition condition) {
 
-        // Pageable 만들기
         int realPage = 0;
         if (condition.getPage() != 0) {
             realPage = condition.getPage() - 1;
         }
         Pageable pageable = createPage(realPage, condition.getSize());
 
-        // repository에서 Page 불러오기
         Page<FoodEntity> pageFoodList = foodRepository.findPageByNameContainingOrderByNameDesc(condition.getName(), pageable);
-
-        // dto Page로 만들기
 
         return pageFoodList.map(ResponseGetFood::create);
     }
@@ -77,7 +73,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public List<ResponseGetFood> getFoodName(String inputValue) {
         try {
-            return foodRepository.find10FoodBySearch(inputValue)
+            return foodRepository.findTop10FoodBySearch(inputValue)
                     .stream()
                     .map(ResponseGetFood::create)
                     .collect(Collectors.toList());
