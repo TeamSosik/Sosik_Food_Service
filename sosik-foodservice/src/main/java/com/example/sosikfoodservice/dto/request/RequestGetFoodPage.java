@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GetFoodPageCondition {
+public class RequestGetFoodPage {
 
     private String name;// 찾는 음식명
     @NotNull(message = "유효하지 않은 값입니다.")
@@ -18,7 +18,7 @@ public class GetFoodPageCondition {
     private Integer size;
 
     @Builder
-    public GetFoodPageCondition(String name, Integer page, Integer size) {
+    public RequestGetFoodPage(String name, Integer page, Integer size) {
         this.name = name;
         this.page = page;
         this.size = size;

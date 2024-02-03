@@ -1,6 +1,6 @@
 package com.example.sosikfoodservice.controller;
 
-import com.example.sosikfoodservice.dto.request.GetFoodPageCondition;
+import com.example.sosikfoodservice.dto.request.RequestGetFoodPage;
 import com.example.sosikfoodservice.dto.response.ResponseGetFood;
 import com.example.sosikfoodservice.dto.response.Result;
 import com.example.sosikfoodservice.exception.FoodErrorCode;
@@ -27,7 +27,7 @@ public class FoodController {
      * TODO : 필요한 데이터만 있는 PageDTO 만들어 보기
      */
     @GetMapping
-    public Result<Page<ResponseGetFood>> getFoodPage(@Valid GetFoodPageCondition condition) {
+    public Result<Page<ResponseGetFood>> getFoodPage(@Valid RequestGetFoodPage condition) {
         Page<ResponseGetFood> result = foodService.getFoodPage(condition);
         return Result.success(result);
     }
